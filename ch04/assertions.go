@@ -10,9 +10,9 @@ func returnNumber() interface{} {
 
 func main() {
 	anInt := returnNumber()
-	number := anInt.(int)
+	number, ok := anInt.(int)
 	number++
-	fmt.Println(number)
+	fmt.Println(number, ok)
 
 	// The next statement will fail because there
 	// is no type assertion to get the value:
@@ -36,5 +36,5 @@ func main() {
 	fmt.Println("i:", i)
 
 	// This will PANIC because `anInt` is not `bool`
-	_ = anInt.(bool)
+	_ = anInt.(float64)
 }

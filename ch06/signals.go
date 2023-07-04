@@ -16,6 +16,7 @@ func main() {
 	fmt.Printf("Process ID: %d\n", os.Getpid())
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs)
+  //signal.Notify(sigs, syscall.SIGINT, syscall.SIGINFO)
 	start := time.Now()
 	go func() {
 		for {
@@ -24,7 +25,7 @@ func main() {
 			case syscall.SIGINT:
 				duration := time.Since(start)
 				fmt.Println("Execution time:", duration)
-			case syscall.SIGINFO:
+			case syscall.SIGKILL:
 				handleSignal(sig)
 				// do not use return here because the goroutine will exit
 				// but the time.Sleep() will continue to work!

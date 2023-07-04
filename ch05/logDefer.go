@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-var LOG = "/tmp/mGo.log"
+var LOG = "./mGo.log"
 
 func one(aLog *log.Logger) {
 	aLog.Println("-- FUNCTION one ------")

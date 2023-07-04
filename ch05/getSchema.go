@@ -3,13 +3,14 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"os"
-	"strconv"
-
+	//"os"
+	//"strconv"
+    "time"
 	_ "github.com/lib/pq"
 )
 
 func main() {
+	/*
 	arguments := os.Args
 	if len(arguments) != 6 {
 		fmt.Println("Please provide: hostname port username password db")
@@ -28,11 +29,12 @@ func main() {
 		fmt.Println("Not a valid port number:", err)
 		return
 	}
-
+    
 	// connection string
 	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, pass, database)
-
+	*/	
+    conn := "postgresql://lin:ARKgDKK5sMlPOijptuSNcQ@mushy-fox-469.5xj.cockroachlabs.cloud:26257/go?sslmode=verify-full"
 	// open PostgreSQL database
 	db, err := sql.Open("postgres", conn)
 	if err != nil {
@@ -42,8 +44,9 @@ func main() {
 	defer db.Close()
 
 	// Get all databases
-	rows, err := db.Query(`SELECT "datname" FROM "pg_database"
-	WHERE datistemplate = false`)
+	//rows, err := db.Query(`SELECT "datname" FROM "pg_database"
+	//WHERE datistemplate = false`)
+	rows, err := db.Query(`SELECT "datname" FROM "pg_database" WHERE datistemplate = false`)
 	if err != nil {
 		fmt.Println("Query", err)
 		return
@@ -52,17 +55,18 @@ func main() {
 	for rows.Next() {
 		var name string
 		err = rows.Scan(&name)
-		defer rows.Close()
 		if err != nil {
 			fmt.Println("Scan", err)
 			return
 		}
 		fmt.Println("*", name)
 	}
+  defer rows.Close()
 
 	// Get all tables from __current__ database
-	query := `SELECT table_name FROM information_schema.tables WHERE 
-		table_schema = 'public' ORDER BY table_name`
+	//query := `SELECT table_name FROM information_schema.tables WHERE 
+	//	table_schema = 'public' ORDER BY table_name`
+	query := `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name`
 	rows, err = db.Query(query)
 	if err != nil {
 		fmt.Println("Query", err)
@@ -80,4 +84,13 @@ func main() {
 		fmt.Println("+T", name)
 	}
 	defer rows.Close()
+
+	var now time.Time
+	err = db.QueryRow("SELECT NOW()").Scan(&now)
+	if err != nil {
+		fmt.Println("QueryRow", err)
+			return
+	}
+
+	fmt.Println(now)
 }

@@ -22,11 +22,11 @@ func main() {
 	S12[1] = "S12_1"
 
 	fmt.Println("a:", a)
-
+    fmt.Println("S12:", S12)
 	// Changes to slice -> changes to array
 	change(S12)
 	fmt.Println("a:", a)
-
+    fmt.Println("S12:", S12)
 	// capacity of S0
 	fmt.Println("Capacity of S0:", cap(S0), "Length of S0:", len(S0))
 
@@ -35,7 +35,10 @@ func main() {
 	S0 = append(S0, "N2")
 	S0 = append(S0, "N3")
 	a[0] = "-N1"
-
+    fmt.Println("Capacity of S0:", cap(S0), "Length of S0:", len(S0))
+	fmt.Println("S0:", S0)
+	fmt.Println("a: ", a)
+	fmt.Println("S12:", S12)
 	// Changing the capacity of S0
 	// Not the same underlying array any more!
 	S0 = append(S0, "N4")

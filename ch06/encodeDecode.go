@@ -6,8 +6,8 @@ import (
 )
 
 type UseAll struct {
-	Name    string `json:"username"`
-	Surname string `json:"surname"`
+	Name    string `json:""`
+	Surname string `json:"-,"`
 	Year    int    `json:"created"`
 }
 
@@ -20,11 +20,11 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Printf("Value %s\n", t)
+		fmt.Printf("Type: %[1]T \t Value: %[1]s\n", t)
 	}
 
 	// Decoding JSON data given as a string
-	str := `{"username": "M.", "surname": "Ts", "created":2020}`
+	str := `{"Name": "M.", "-": "Ts", "creat":2020}`
 	// Convert string into a byte slice
 	jsonRecord := []byte(str)
 	// Create a structure variable to store the result
@@ -33,6 +33,6 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Printf("Data type: %T with value %v\n", temp, temp)
+		fmt.Printf("Data type: %[1]T with value %[1]v\n", temp)
 	}
 }

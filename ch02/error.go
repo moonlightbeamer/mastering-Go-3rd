@@ -32,6 +32,7 @@ func main() {
 	}
 
 	err = check(0, 0)
+	fmt.Println(err)
 	if err.Error() == "this is a custom error message" {
 		fmt.Println("Custom error detected!")
 	}
@@ -40,6 +41,11 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	err = formattedError(0, 10)
+	//if err != nil {
+		fmt.Println(err)
+	//}
 
 	i, err := strconv.Atoi("-123")
 	if err == nil {

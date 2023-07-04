@@ -5,13 +5,15 @@ import (
 )
 
 func d1() {
+	fmt.Print("d1():")
 	for i := 3; i > 0; i-- {
 		defer fmt.Print(i, " ")
 	}
 }
 
 func d2() {
-	for i := 3; i > 0; i-- {
+	fmt.Print("d2():")
+	for i := 3; i > -1; i-- {
 		defer func() {
 			fmt.Print(i, " ")
 		}()
@@ -20,6 +22,7 @@ func d2() {
 }
 
 func d3() {
+	fmt.Print("d3():")
 	for i := 3; i > 0; i-- {
 		defer func(n int) {
 			fmt.Print(n, " ")
@@ -29,8 +32,9 @@ func d3() {
 
 func main() {
 	d1()
+	fmt.Print("\nmain1 done\n")
 	d2()
-	fmt.Println()
+	fmt.Print("\nmain2 done\n")
 	d3()
-	fmt.Println()
+	fmt.Print("\nmain3 done\n")
 }

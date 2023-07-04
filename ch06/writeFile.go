@@ -8,36 +8,36 @@ import (
 )
 
 func main() {
-	buffer := []byte("Data to write\n")
+	buffer := "Data to write\n"
 
-	f1, err := os.Create("/tmp/f1.txt")
+	f1, err := os.Create("./f1.txt")
 	if err != nil {
 		fmt.Println("Cannot create file", err)
 		return
 	}
 	defer f1.Close()
-	fmt.Fprintf(f1, string(buffer))
+	fmt.Fprintf(f1, buffer)
 
-	f2, err := os.Create("/tmp/f2.txt")
+	f2, err := os.Create("./f2.txt")
 	if err != nil {
 		fmt.Println("Cannot create file", err)
 		return
 	}
 	defer f2.Close()
-	n, err := f2.WriteString(string(buffer))
-	fmt.Printf("wrote %d bytes\n", n)
+	n, err := f2.WriteString(buffer)
+	fmt.Printf("wrote %d bytes to f2\n", n)
 
-	f3, err := os.Create("/tmp/f3.txt")
+	f3, err := os.Create("./f3.txt")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	w := bufio.NewWriter(f3)
-	n, err = w.WriteString(string(buffer))
-	fmt.Printf("wrote %d bytes\n", n)
+	n, err = w.WriteString(buffer)
+	fmt.Printf("wrote %d bytes to f3\n", n)
 	w.Flush()
 
-	f := "/tmp/f4.txt"
+	f := "./f4.txt"
 	f4, err := os.Create(f)
 	if err != nil {
 		fmt.Println(err)
@@ -46,12 +46,12 @@ func main() {
 	defer f4.Close()
 
 	for i := 0; i < 5; i++ {
-		n, err = io.WriteString(f4, string(buffer))
+		n, err = io.WriteString(f4, buffer)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		fmt.Printf("wrote %d bytes\n", n)
+		fmt.Printf("wrote %d bytes to f4\n", n)
 	}
 
 	// Append to a file
@@ -63,10 +63,10 @@ func main() {
 	defer f4.Close()
 
 	// Write() needs a byte slice
-	n, err = f4.Write([]byte("Put some more data at the end.\n"))
+	n, err = f4.WriteString("Put some more data at the end.\n")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("wrote %d bytes\n", n)
+	fmt.Printf("appended %d bytes to f4\n", n)
 }

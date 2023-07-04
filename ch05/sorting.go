@@ -14,18 +14,17 @@ type Grades struct {
 func main() {
 	data := []Grades{{"J.", "Lewis", 10}, {"M.", "Tsoukalos", 7},
 		{"D.", "Tsoukalos", 8}, {"J.", "Lewis", 9}}
+    
+	for i :=0; i < 2; i++ {
+		isSorted := sort.SliceIsSorted(data, func(i, j int) bool { return data[i].Grade < data[j].Grade })
 
-	isSorted := sort.SliceIsSorted(data, func(i, j int) bool {
-		return data[i].Grade < data[j].Grade
-	})
+		if isSorted {
+			fmt.Println("It is sorted! As is:")
+		} else {
+			fmt.Println("It is NOT sorted! Sorting...")
+			sort.Slice(data, func(i, j int) bool { return data[i].Grade < data[j].Grade })
+		}
 
-	if isSorted {
-		fmt.Println("It is sorted!")
-	} else {
-		fmt.Println("It is NOT sorted!")
-	}
-
-	sort.Slice(data,
-		func(i, j int) bool { return data[i].Grade < data[j].Grade })
-	fmt.Println("By Grade:", data)
+		fmt.Println("By Grade:", data)
+	}	
 }

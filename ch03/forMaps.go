@@ -12,7 +12,7 @@ func main() {
 	}
 
 	for _, v := range aMap {
-		fmt.Print(" # ", v)
+		fmt.Println(" # ", v)
 	}
 	fmt.Println()
 }

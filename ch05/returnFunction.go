@@ -24,10 +24,10 @@ func main() {
 
 	fmt.Printf("%T\n", i)
 	fmt.Printf("%T %v\n", j, j)
-	fmt.Println("j", j, j(-5))
+	fmt.Println("j", j, "j(-5):", j(-5))
 
 	// Same input parameter but DIFFERENT
 	// anonymous functions assigned to i and j
-	fmt.Println(i(10))
-	fmt.Println(j(10))
+	fmt.Println("i(10):", i(10))
+	fmt.Println("j(10):", j(10))
 }

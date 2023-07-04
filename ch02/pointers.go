@@ -30,18 +30,19 @@ func main() {
 	fmt.Println("Value of f:", *fP)
 	// The value of f changes
 	processPointer(fP)
-	fmt.Printf("Value of f: %.2f\n", f)
+	fmt.Printf("Value of f after square: %.2f\n", f)
 	// The value of f does not change
 	x := returnPointer(f)
-	fmt.Printf("Value of x: %.2f\n", *x)
+	fmt.Printf("Value of x after doubling f: %.2f\n", *x)
 	// The value of f does not change
 	xx := bothPointers(fP)
-	fmt.Printf("Value of xx: %.2f\n", *xx)
+	fmt.Printf("Value of xx after doubling original f: %.2f\n", *xx)
 
 	// Check for empty structure
-	var k *aStructure
+	var k *aStructure //= new(aStructure)
 	// This is nil because currently k points to nowhere
 	fmt.Println(k)
+	fmt.Printf("%+v\n", k)
 	// Therefore you are allowed to do this:
 	if k == nil {
 		k = new(aStructure)

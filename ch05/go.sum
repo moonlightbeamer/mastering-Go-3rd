@@ -1,0 +1,6 @@
+github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=
+github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
+github.com/moonlightbeamer/post05 v0.0.3 h1:t2rjvK/n8bJpU/bVt4F4hSs2on+p/UCYwlfhmEgJBMU=
+github.com/moonlightbeamer/post05 v0.0.3/go.mod h1:cqNgtWduhs5HtBgqWB5Jb0v6+sPyClefKnKO+NnABeI=
+github.com/moonlightbeamer/post05 v0.0.4 h1:6lJPm9Af7ycFPZIb0C/s7cKb+DjvgrnbJh8Ed5yYtuU=
+github.com/moonlightbeamer/post05 v0.0.4/go.mod h1:cqNgtWduhs5HtBgqWB5Jb0v6+sPyClefKnKO+NnABeI=

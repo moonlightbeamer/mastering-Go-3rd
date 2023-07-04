@@ -61,9 +61,17 @@ func main() {
 
 	// bytes.Buffer is both an io.Reader and io.Writer
 	buf := new(bytes.Buffer)
-
 	encoder := json.NewEncoder(buf)
-	err := Serialize(encoder, DataRecords)
+  encode_err := encoder.Encode(&DataRecords)
+  if encode_err == nil {
+    fmt.Print("Encoded:", buf)
+  } else {
+    fmt.Println("error happened.")
+    return
+  }  
+ 
+
+	err := Serialize(encoder, &DataRecords)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -72,9 +80,19 @@ func main() {
 
 	decoder := json.NewDecoder(buf)
 	var temp []Data
+  decode_err := decoder.Decode(&temp)
+  if decode_err == nil {
+    fmt.Println(temp)
+  } else {
+    fmt.Println("error happened.")
+    return
+  }
+  
 	err = DeSerialize(decoder, &temp)
-	fmt.Println("After DeSerialize:")
+	fmt.Println(temp)
+  fmt.Println("After DeSerialize:")
 	for index, value := range temp {
 		fmt.Println(index, value)
 	}
+  
 }

@@ -14,7 +14,7 @@ func main() {
 	S := []record{}
 	for i := 0; i < 10; i++ {
 		text := "text" + strconv.Itoa(i)
-		temp := record{Field1: i, Field2: text}
+		temp := record{i, text}
 		S = append(S, temp)
 	}
 	// Accessing the fields of the first element

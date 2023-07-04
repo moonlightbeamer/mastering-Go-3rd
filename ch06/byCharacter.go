@@ -25,8 +25,10 @@ func charByChar(file string) error {
 		}
 
 		for _, x := range line {
-			fmt.Println(string(x))
+			fmt.Printf("%c ", x)
 		}
+		fmt.Println()
+		fmt.Println(line)
 	}
 	return nil
 }

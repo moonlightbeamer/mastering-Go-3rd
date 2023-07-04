@@ -26,16 +26,6 @@ type a struct {
 	YY int
 }
 
-// Satisfying IntA
-func (varC c) foo() {
-	fmt.Println("Foo Processing", varC)
-}
-
-// Satisfying IntB
-func (varC c) bar() {
-	fmt.Println("Bar Processing", varC)
-}
-
 type b struct {
 	AA string
 	XX int
@@ -45,6 +35,21 @@ type b struct {
 type c struct {
 	A a
 	B b
+}
+
+type d struct {
+	a
+	b
+}
+
+// Satisfying IntA
+func (varC c) foo() {
+	fmt.Println("Foo Processing", varC)
+}
+
+// Satisfying IntB
+func (varC c) bar() {
+	fmt.Println("Bar Processing", varC)
 }
 
 // Structure compose gets the fields of structure a
@@ -63,10 +68,12 @@ func (B b) A() {
 }
 
 func main() {
-	var iC c = c{a{120, 12}, b{"-12", -12}}
+	var iC c = c{A: a{120, 12}, B: b{"-12", -12}}
+	iD := d{a{111,222}, b{"13", 13}}
+
 	iC.A.A()
 	iC.B.A()
-
+    fmt.Println(iD.YY, iD.AA) //iD.XX is ambigious, can't be referenced
 	// The following two statements does not work
 	// ./objO.go:71:33: mixture of field:value and value initializers
 	// iComp := compose{field1: 123, a{456, 789}}
@@ -79,5 +86,6 @@ func main() {
 	fmt.Println(iComp.XX, iComp.YY, iComp.field1)
 
 	iC.bar()
+	iC.foo()
 	processA(iC)
 }

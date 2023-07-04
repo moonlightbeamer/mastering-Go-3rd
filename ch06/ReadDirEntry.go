@@ -41,7 +41,7 @@ func main() {
 		return
 	}
 
-	root, err := filepath.EvalSymlinks(arguments[1])
+	root, _ := filepath.EvalSymlinks(arguments[1])
 	fileInfo, err := os.Stat(root)
 	if err != nil {
 		fmt.Println(err)

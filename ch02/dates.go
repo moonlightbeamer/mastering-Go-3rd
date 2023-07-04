@@ -16,22 +16,22 @@ func main() {
 	dateString := os.Args[1]
 
 	// Is this a date only?
-	d, err := time.Parse("02 January 2006", dateString)
+	d, err := time.Parse("Jan 02 2006", dateString)
 	if err == nil {
 		fmt.Println("Full:", d)
 		fmt.Println("Time:", d.Day(), d.Month(), d.Year())
 	}
 
 	// Is this a date + time?
-	d, err = time.Parse("02 January 2006 15:04", dateString)
+	d, err = time.Parse("January 02 2006 15:04 MST", dateString)
 	if err == nil {
 		fmt.Println("Full:", d)
-		fmt.Println("Date:", d.Day(), d.Month(), d.Year())
-		fmt.Println("Time:", d.Hour(), d.Minute())
+		fmt.Println("Date:", d.Day(), d.Month(), d.Year(), d.Weekday())
+		fmt.Println("Time:", d.Hour(), d.Minute(), d.Second())
 	}
 
 	// Is this a date + time with month represented as a number?
-	d, err = time.Parse("02-01-2006 15:04", dateString)
+	d, err = time.Parse("01-02-2006 15:04", dateString)
 	if err == nil {
 		fmt.Println("Full:", d)
 		fmt.Println("Date:", d.Day(), d.Month(), d.Year())

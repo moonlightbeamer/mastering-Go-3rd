@@ -12,31 +12,39 @@ type Entry struct {
 	F3 Secret
 }
 
+type Shape interface {}
+var shape Shape
 func Teststruct(x interface{}) {
 	// type switch
 	switch T := x.(type) {
 	case Secret:
-		fmt.Println("Secret type")
+		fmt.Printf("supported type: %T, value is: %v\n", T, T)
 	case Entry:
-		fmt.Println("Entry type")
+		fmt.Printf("supported type: %T, value is: %v\n", T, T)
 	default:
-		fmt.Printf("Not supported type: %T\n", T)
+		fmt.Printf("Not supported type: %T, value is: %v: \n", T, T)
 	}
 }
 
 func Learn(x interface{}) {
 	switch T := x.(type) {
+  case int:
+    fmt.Printf("Int Data type: %T, value is: %v\n", T, T)
 	default:
-		fmt.Printf("Data type: %T\n", T)
+		fmt.Printf("Data type: %T, value is: %v\n", T, T)
 	}
 }
 
 func main() {
+  Learn(123)
+  Learn(12.23)
+	Learn('€')
+	//Learn(A)
+	Learn(200i+10)
+	Learn(shape)
+
 	A := Entry{100, "F2", Secret{"myPassword"}}
 	Teststruct(A)
 	Teststruct(A.F3)
 	Teststruct("A string")
-
-	Learn(12.23)
-	Learn('€')
 }

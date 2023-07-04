@@ -21,22 +21,22 @@ func main() {
 		fmt.Println("One!")
 	case "2", "3", "4":
 		fmt.Println("2 or 3 or 4")
-		fallthrough
+		//fallthrough
 	default:
 		fmt.Println("Value:", argument)
 	}
 
 	value, err := strconv.Atoi(argument)
 	if err != nil {
-		fmt.Println("Cannot convert to int:", argument)
-		return
+		fmt.Printf("Cannot convert \"%s\" to int, and \"value\" is \"%s\", \"err\" is \"%s\"\n", argument, value, err)
+		//return
 	}
 
 	// No expression after switch
 	switch {
-	case value == 0:
+	case value == 0:	
 		fmt.Println("Zero!")
-	case value > 0:
+	case value > 0:	
 		fmt.Println("Positive integer")
 	case value < 0:
 		fmt.Println("Negative integer")

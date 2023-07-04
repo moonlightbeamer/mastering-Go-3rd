@@ -29,7 +29,6 @@ func main() {
 
 	name := viper.GetString("name")
 	password := viper.GetString("password")
-
 	fmt.Println(name, password)
 
 	// Reading an Environment variable

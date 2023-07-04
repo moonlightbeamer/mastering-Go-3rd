@@ -7,9 +7,9 @@ import (
 )
 
 func matchNameSur(s string) bool {
-	t := []byte(s)
-	re := regexp.MustCompile(`^[A-Z][a-z]*$`)
-	return re.Match(t)
+	//t := []byte(s)
+	//re := regexp.MustCompile(`^[A-Z][a-z]*$`)
+	return regexp.MustCompile("^[A-Z][a-z]*$").Match([]byte(s))
 }
 
 func main() {

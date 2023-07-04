@@ -20,10 +20,10 @@ func lineByLine(file string) error {
 		if err == io.EOF {
 			break
 		} else if err != nil {
-			fmt.Printf("error reading file %s", err)
+			fmt.Printf("error reading file %v, error: %s", f, err)
 			break
 		}
-		fmt.Print(line)
+		fmt.Println(line)
 	}
 	return nil
 }

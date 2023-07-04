@@ -9,9 +9,10 @@ import (
 )
 
 type ConfigStructure struct {
-	MacPass     string `mapstructure:"macos"`
-	LinuxPass   string `mapstructure:"linux"`
+	MacPass     string `json:"macos"`
+	LinuxPass   string `json:"linux"`
 	WindowsPass string `mapstructure:"windows"`
+	Active      bool   `json:"active"`
 	PostHost    string `mapstructure:"postgres"`
 	MySQLHost   string `mapstructure:"mysql"`
 	MongoHost   string `mapstructure:"mongodb"`

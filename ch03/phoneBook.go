@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
+  "math/rand"
 	"os"
 	"regexp"
 	"strconv"
@@ -18,27 +19,51 @@ type Entry struct {
 }
 
 // CSVFILE resides in the home directory of the current user
-var CSVFILE = "/Users/mtsouk/csv.data"
+var CSVFILE = "./csv.data"
+var INDFILE = "./index.data"
 
 var data = []Entry{}
-var index map[string]int
+var index = map[string]int{}
+var data_match = []int{}
 
-func readCSVFile(filepath string) error {
-	_, err := os.Stat(filepath)
-	if err != nil {
-		return err
+func readCSVFile(filepath string, d *[]Entry) error {
+	// If the filepath does not exist, create an new one and seed it with 100 rows of random data
+	fileInfo, info_err := os.Stat(filepath)
+	// If error is not nil, it means that the file does not exist
+	if info_err != nil {
+		fmt.Println("Didn't find pre-existing \"", filepath, "\" data file, creating a new one.")
+		csv_file, create_err := os.Create(filepath)
+		if create_err != nil {
+			return create_err
+		}
+    csv_writer := csv.NewWriter(csv_file)
+    csv_writer.Comma = ','
+    l := 100
+    for i := 0; i < l; i++ {
+      name := getString(4)
+      surname := getString(5)
+      tel := strconv.Itoa(random(1999999999, 9999999999))
+      time := strconv.FormatInt(time.Now().Unix(), 10)
+      temp := []string{name, surname, tel, time}
+      csv_writer.Write(temp)
+    }
+    csv_writer.Flush()
+		csv_file.Close()
+	} else if !(fileInfo.Mode().IsRegular()) {
+		return fmt.Errorf("%s is not a regular file!", filepath)
 	}
-
-	f, err := os.Open(filepath)
-	if err != nil {
-		return err
+  
+  // loading csv file into data structure after guarantee file availability
+	data_file, open_err := os.Open(filepath)
+	if open_err != nil {
+		return open_err
 	}
-	defer f.Close()
+	defer data_file.Close()
 
 	// CSV file read all at once
-	lines, err := csv.NewReader(f).ReadAll()
-	if err != nil {
-		return err
+	lines, read_err := csv.NewReader(data_file).ReadAll()
+	if read_err != nil {
+		return read_err
 	}
 
 	for _, line := range lines {
@@ -49,13 +74,17 @@ func readCSVFile(filepath string) error {
 			LastAccess: line[3],
 		}
 		// Storing to global variable
-		data = append(data, temp)
+    if matchNameSur(temp.Name) && matchNameSur(temp.Surname) && matchTel(temp.Tel) && matchTel(temp.LastAccess) {
+		  *d = append(*d, temp)
+    } else {
+      return fmt.Errorf("name and tel fields in data file %s have incorrect format in line %v.", filepath, line)
+    }
 	}
 
 	return nil
 }
 
-func saveCSVFile(filepath string) error {
+func saveCSVFile(filepath string, d *[]Entry) error {
 	csvfile, err := os.Create(filepath)
 	if err != nil {
 		return err
@@ -63,20 +92,73 @@ func saveCSVFile(filepath string) error {
 	defer csvfile.Close()
 
 	csvwriter := csv.NewWriter(csvfile)
-	for _, row := range data {
+	for _, row := range *d {
 		temp := []string{row.Name, row.Surname, row.Tel, row.LastAccess}
-		_ = csvwriter.Write(temp)
+		csvwriter.Write(temp)
 	}
 	csvwriter.Flush()
 	return nil
 }
 
-func createIndex() error {
-	index = make(map[string]int)
-	for i, k := range data {
-		key := k.Tel
-		index[key] = i
+func readIndex(filepath string, d *[]Entry, ind *map[string]int) error {
+  // If the filepath does not exist, create an new one and seed it with freshly created index data
+	fileInfo, info_err := os.Stat(filepath)
+	// If error is not nil, it means that the file does not exist
+	if info_err != nil {
+		fmt.Println("Didn't find pre-existing \"", filepath, "\" index file, creating a new one.")
+		csv_file, create_err := os.Create(filepath)
+		if create_err != nil {
+			return create_err
+		}
+    csv_writer := csv.NewWriter(csv_file)
+    csv_writer.Comma = ','
+    for i, v := range *d {
+      temp := []string{v.Tel, strconv.Itoa(i)}
+      csv_writer.Write(temp)
+    }
+    csv_writer.Flush()
+		csv_file.Close()
+	} else if !(fileInfo.Mode().IsRegular()) {
+		return fmt.Errorf("%s is not a regular file!", filepath)
 	}
+
+  // loading csv file into index after guarantee file availability
+	index_file, open_err := os.Open(filepath)
+	if open_err != nil {
+		return open_err
+	}
+	defer index_file.Close()
+
+	// CSV file read all at once
+	lines, read_err := csv.NewReader(index_file).ReadAll()
+	if read_err != nil {
+		return read_err
+	}
+  
+  for _, line := range lines {
+		key := line[0]
+    i, conv_err := strconv.Atoi(line[1])
+    if conv_err != nil { 
+      return fmt.Errorf("index in index file %s is not an integer in line %v", filepath, line)
+    }
+		(*ind)[key] = i
+	}
+	return nil
+}
+
+func saveIndexFile(filepath string, ind *map[string]int) error {
+	csvfile, err := os.Create(filepath)
+	if err != nil {
+		return err
+	}
+	defer csvfile.Close()
+
+	csvwriter := csv.NewWriter(csvfile)
+	for k, v := range *ind {
+		temp := []string{k, strconv.Itoa(v)}
+		csvwriter.Write(temp)
+	}
+	csvwriter.Flush()
 	return nil
 }
 
@@ -92,58 +174,103 @@ func initS(N, S, T string) *Entry {
 	return &Entry{Name: N, Surname: S, Tel: T, LastAccess: LastAccess}
 }
 
-func insert(pS *Entry) error {
+func insert(pS *Entry, d *[]Entry, ind *map[string]int) error {
 	// If it already exists, do not add it
-	_, ok := index[(*pS).Tel]
+	_, ok := (*ind)[(*pS).Tel]
 	if ok {
 		return fmt.Errorf("%s already exists", pS.Tel)
 	}
-	data = append(data, *pS)
+	*d = append(*d, *pS)
 	// Update the index
-	_ = createIndex()
+  (*ind)[(*pS).Tel] = len(*d)-1
+	index_err := saveIndexFile(INDFILE, ind)
+  if index_err != nil {
+		return index_err
+	}
 
-	err := saveCSVFile(CSVFILE)
-	if err != nil {
-		return err
+	data_err := saveCSVFile(CSVFILE, d)
+	if data_err != nil {
+		return data_err
 	}
 	return nil
 }
 
-func deleteEntry(key string) error {
-	i, ok := index[key]
+func deleteEntry(key string, d *[]Entry, ind *map[string]int) error {
+	i, ok := (*ind)[key]
 	if !ok {
 		return fmt.Errorf("%s cannot be found!", key)
 	}
-	data = append(data[:i], data[i+1:]...)
-	// Update the index - key does not exist any more
-	delete(index, key)
+	*d = append((*d)[:i], (*d)[i+1:]...)
+	// rebuild the index - key does not exist any more and index in data changed too.
+  // remove the deleted key before rebuild map to avoid potentially duplicated index, or clean it entirely: (*ind) = map[string]int{} 
+  delete(*ind, key)   // or (*ind) = map[string]int{} 
+  for re_i, re_v := range *d {
+    (*ind)[re_v.Tel] = re_i
+  }
 
-	err := saveCSVFile(CSVFILE)
-	if err != nil {
-		return err
+	data_err := saveCSVFile(CSVFILE, d)
+	if data_err != nil {
+		return data_err
 	}
+
+  index_err := saveIndexFile(INDFILE, ind)
+	if index_err != nil {
+		return index_err
+	}
+
 	return nil
 }
 
-func search(key string) *Entry {
-	i, ok := index[key]
-	if !ok {
-		return nil
+func search(key string, d *[]Entry, ind *map[string]int, re *[]int) error {
+	*re = []int{}
+  for i, v := range *ind {
+		if strings.Count(i, key) > 0 {
+			*re = append(*re, v)
+		}
 	}
-	data[i].LastAccess = strconv.FormatInt(time.Now().Unix(), 10)
-	return &data[i]
+  if len(*re) == 0 {
+    return fmt.Errorf("%s not found.", key)
+  } else {
+    for _, re_v := range *re {
+      (*d)[re_v].LastAccess = strconv.FormatInt(time.Now().Unix(), 10)
+    }
+    saveCSVFile(CSVFILE, d)
+    return nil
+  }
 }
 
-func list() {
-	for _, v := range data {
+func list(d *[]Entry) {
+	for _, v := range *d {
 		fmt.Println(v)
 	}
 }
 
+func matchNameSur(s string) bool {
+	return regexp.MustCompile("^[A-Z][a-z]*$").Match([]byte(s))
+}
+
 func matchTel(s string) bool {
-	t := []byte(s)
-	re := regexp.MustCompile(`\d+$`)
-	return re.Match(t)
+	return regexp.MustCompile(`\d+$`).Match([]byte(s))
+}
+
+func random(min, max int) int {
+	return rand.Intn(max-min) + min
+}
+
+func getString(l int64) string {
+	startChar := "A"
+	temp := ""
+	var i int64 = 1
+	for {
+		myRand := random(0, 26)
+		newChar := string(startChar[0] + byte(myRand))
+		temp = temp + newChar
+		if i == l {
+			break
+		}
+		i++
+	}
+	return strings.Title(strings.ToLower(temp))
 }
 
 func main() {
@@ -153,36 +280,15 @@ func main() {
 		return
 	}
 
-	// If the CSVFILE does not exist, create an empty one
-	_, err := os.Stat(CSVFILE)
-	// If error is not nil, it means that the file does not exist
-	if err != nil {
-		fmt.Println("Creating", CSVFILE)
-		f, err := os.Create(CSVFILE)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		f.Close()
-	}
-
-	fileInfo, err := os.Stat(CSVFILE)
-	// Is it a regular file?
-	mode := fileInfo.Mode()
-	if !mode.IsRegular() {
-		fmt.Println(CSVFILE, "not a regular file!")
+	data_err := readCSVFile(CSVFILE, &data)
+	if data_err != nil {
+		fmt.Println(data_err)
 		return
 	}
 
-	err = readCSVFile(CSVFILE)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	err = createIndex()
-	if err != nil {
-		fmt.Println("Cannot create index.")
+	index_err := readIndex(INDFILE, &data, &index)
+	if index_err != nil {
+		fmt.Println(index_err)
 		return
 	}
 
@@ -201,9 +307,9 @@ func main() {
 		temp := initS(arguments[2], arguments[3], t)
 		// If it was nil, there was an error
 		if temp != nil {
-			err := insert(temp)
-			if err != nil {
-				fmt.Println(err)
+			insert_err := insert(temp, &data, &index)
+			if insert_err != nil {
+				fmt.Println(insert_err)
 				return
 			}
 		}
@@ -217,9 +323,9 @@ func main() {
 			fmt.Println("Not a valid telephone number:", t)
 			return
 		}
-		err := deleteEntry(t)
-		if err != nil {
-			fmt.Println(err)
+		delete_err := deleteEntry(t, &data, &index)
+		if delete_err != nil {
+			fmt.Println(delete_err)
 		}
 	case "search":
 		if len(arguments) != 3 {
@@ -231,14 +337,16 @@ func main() {
 			fmt.Println("Not a valid telephone number:", t)
 			return
 		}
-		temp := search(t)
-		if temp == nil {
-			fmt.Println("Number not found:", t)
+		search_err := search(t, &data, &index, &data_match)
+		if search_err != nil {
+			fmt.Println(search_err)
 			return
 		}
-		fmt.Println(*temp)
+		for _, re_v := range data_match {
+      fmt.Println(data[re_v])
+    }
 	case "list":
-		list()
+		list(&data)
 	default:
 		fmt.Println("Not a valid option")
 	}

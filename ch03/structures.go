@@ -32,20 +32,20 @@ func zeroPtoS() *Entry {
 // Initialized by the user - returns pointer
 func initPtoS(N, S string, Y int) *Entry {
 	if len(S) == 0 {
-		return &Entry{Name: N, Surname: "Unknown", Year: Y}
+		return &Entry{N, "Unknown", Y}
 	}
-	return &Entry{Name: N, Surname: S, Year: Y}
+	return &Entry{N, S, Y}
 }
 
 func main() {
 	s1 := zeroS()
 	p1 := zeroPtoS()
-	fmt.Println("s1:", s1, "p1:", *p1)
+	fmt.Println("s1:", s1, "p1:", *p1, "&p1:", p1)
 
 	s2 := initS("Mihalis", "Tsoukalos", 2020)
-	p2 := initPtoS("Mihalis", "Tsoukalos", 2020)
-	fmt.Println("s2:", s2, "p2:", *p2)
+	p2 := initPtoS("Mihalis", "", 2020)
+	fmt.Println("s2:", s2, "p2:", *p2, "&p2:", p2)
 	fmt.Println("Year:", s1.Year, s2.Year, p1.Year, p2.Year)
 	pS := new(Entry)
-	fmt.Println("pS:", pS)
+	fmt.Println("pS:", pS, "*pS:", *pS)
 }

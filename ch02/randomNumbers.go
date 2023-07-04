@@ -23,7 +23,7 @@ func main() {
 	case 2:
 		fmt.Println("Usage: ./randomNumbers MIN MAX TOTAL SEED")
 		t, err := strconv.Atoi(arguments[1])
-		if err != nil {
+		if err == nil {
 			MIN = t
 			MAX = MIN + 100
 		}
@@ -77,7 +77,7 @@ func main() {
 	default:
 		fmt.Println("Using default values!")
 	}
-
+  fmt.Println(MIN, MAX, TOTAL, SEED)
 	rand.Seed(SEED)
 	for i := 0; i < TOTAL; i++ {
 		myrand := random(MIN, MAX)

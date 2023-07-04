@@ -29,6 +29,7 @@ func main() {
 					fmt.Println(fullPath)
 					return
 				}
+				fmt.Println(fullPath, mode)
 			}
 		}
 	}

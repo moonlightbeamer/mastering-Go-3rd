@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"os"
 	"strconv"
+  "strings"
 	"time"
 )
 
@@ -17,14 +18,14 @@ type Entry struct {
 var data = []Entry{}
 var MIN = 0
 var MAX = 26
-
-func search(key string) *Entry {
-	for i, v := range data {
-		if v.Tel == key {
-			return &data[i]
+var data_result = []Entry{}
+func search(key string, d *[]Entry) {
+	for _, v := range *d {
+		if strings.Count(v.Tel, key) > 0 {
+			data_result = append(data_result, v)
 		}
 	}
-	return nil
+	//return &data_result
 }
 
 func list() {
@@ -53,13 +54,15 @@ func getString(l int64) string {
 	return temp
 }
 
-func populate(n int, s []Entry) {
+func populate(n int, d *[]Entry) {
 	for i := 0; i < n; i++ {
 		name := getString(4)
 		surname := getString(5)
-		n := strconv.Itoa(random(100, 199))
-		data = append(data, Entry{name, surname, n})
+		n := strconv.Itoa(random(100000000, 9999999999))
+		*d = append(*d, Entry{name, surname, n})
+    (*d)[0] = Entry{"Hello", "World", "123456789"}
 	}
+  fmt.Printf("inside of populate func, D has %d entries.\n", len(*d))
 }
 
 func main() {
@@ -74,7 +77,9 @@ func main() {
 
 	// How many records to insert
 	n := 100
-	populate(n, data)
+  fmt.Printf("Before populate func, Data has %d entries.\n", len(data))
+  fmt.Println("It seems populate func need to pass on the pointers of slice to make it work")
+	populate(n, &data)
 	fmt.Printf("Data has %d entries.\n", len(data))
 
 	// Differentiate between the commands
@@ -84,12 +89,16 @@ func main() {
 			fmt.Println("Usage: search Tel number")
 			return
 		}
-		temp := search(arguments[2])
-		if temp == nil {
+		search(arguments[2], &data)
+		if len(data_result) == 0 {
 			fmt.Println("Entry not found:", arguments[2])
 			return
 		}
-		fmt.Println(*temp)
+    fmt.Println("Although search func can take slice just fine since no change to it, only use, but to maintain consistency, passing pointers as well")
+    fmt.Printf("Below are matches found in Data for phone number includes: %s\n", arguments[2])
+		for _, v := range data_result {
+      fmt.Println(v)
+    }
 	case "list":
 		list()
 	default:

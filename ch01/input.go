@@ -7,7 +7,7 @@ import (
 func main() {
 	// Get User Input
 	fmt.Printf("Please give me your name: ")
-	var name string
+	var name string="Nobody"
 	fmt.Scanln(&name)
 	fmt.Println("Your name is", name)
 }

@@ -16,7 +16,7 @@ func walkFunction(path string, info os.FileInfo, err error) error {
 
 	fileInfo, _ = os.Lstat(path)
 	mode := fileInfo.Mode()
-
+    fmt.Println(path, ">>>", mode, ">>>", mode.IsDir())
 	// Find regular directories first
 	if mode.IsDir() {
 		abs, _ := filepath.Abs(path)
@@ -26,6 +26,7 @@ func walkFunction(path string, info os.FileInfo, err error) error {
 			return nil
 		}
 		visited[abs]++
+		fmt.Println(visited)
 		return nil
 	}
 
@@ -74,7 +75,7 @@ func main() {
 		fmt.Println("Not enough arguments!")
 		return
 	}
-
+    fmt.Println(visited)
 	Path := arguments[1]
 	err := filepath.Walk(Path, walkFunction)
 	if err != nil {
@@ -82,8 +83,8 @@ func main() {
 	}
 
 	for k, v := range visited {
-		if v > 1 {
+		//if v > 1 {
 			fmt.Println(k, v)
-		}
+		//}
 	}
 }

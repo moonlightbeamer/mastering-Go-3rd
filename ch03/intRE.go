@@ -19,7 +19,13 @@ func main() {
 		return
 	}
 
-	s := arguments[1]
-	ret := matchInt(s)
-	fmt.Println(ret)
+	sa := arguments[1:]
+	t := 0
+	f := 0
+	for _, s := range sa {
+	  ret := matchInt(s)
+	  fmt.Println(ret)
+	  if ret == true {t +=1} else {f +=1}
+	}
+	fmt.Printf("true: %d, false: %d", t, f)
 }

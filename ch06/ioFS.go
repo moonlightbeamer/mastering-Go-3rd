@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"strings"
 )
 
 //go:embed static
@@ -24,7 +25,7 @@ func walkSearch(path string, d fs.DirEntry, err error) error {
 	if err != nil {
 		return err
 	}
-	if d.Name() == searchString {
+	if strings.Count(d.Name(), searchString) != 0 {
 		fileInfo, err := fs.Stat(f, path)
 		if err != nil {
 			return err
@@ -77,7 +78,7 @@ func main() {
 	}
 
 	// Search
-	searchString = "file.txt"
+	searchString = "file"
 	err = search(f)
 	if err != nil {
 		fmt.Println(err)
@@ -90,9 +91,10 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-
+    
+	buffer = append(buffer, 14)
 	// Save it to an actual file
-	writeToFile(buffer, "/tmp/IOFS.txt")
+	writeToFile(buffer, "./IOFS.txt")
 	if err != nil {
 		fmt.Println(err)
 		return

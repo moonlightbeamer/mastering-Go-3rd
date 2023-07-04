@@ -32,20 +32,21 @@ func main() {
 	// Check if it is XML
 	checkJSON := false
 	tempXML := XMLrec{}
-	err := xml.Unmarshal(input, &tempXML)
-	if err != nil {
+	tempJSON := JSONrec{}
+	xml_err := xml.Unmarshal(input, &tempXML)
+	if xml_err != nil {
 		checkJSON = true
 	} else {
-		tempJSON := JSONrec{Name: tempXML.Name}
+		tempJSON = JSONrec{Name: tempXML.Name}
 		if tempXML.Surname != "" {
 			tempJSON.Surname = tempXML.Surname
 		}
 		if tempXML.Year != 0 {
 			tempJSON.Year = tempXML.Year
 		}
-		s, err := json.Marshal(&tempJSON)
-		if err != nil {
-			fmt.Println(err)
+		s, j_err := json.Marshal(&tempJSON)
+		if j_err != nil {
+			fmt.Println(j_err)
 			return
 		}
 		fmt.Println(string(s))
@@ -58,9 +59,9 @@ func main() {
 
 	// ELSE Check if it is JSON
 	tempXML = XMLrec{}
-	tempJSON := JSONrec{}
-	err = json.Unmarshal(input, &tempJSON)
-	if err != nil {
+	tempJSON = JSONrec{}
+	json_err := json.Unmarshal(input, &tempJSON)
+	if json_err != nil {
 		fmt.Println("Not valid input")
 		return
 	} else {
@@ -71,9 +72,9 @@ func main() {
 		if tempJSON.Year != 0 {
 			tempXML.Year = tempJSON.Year
 		}
-		s, err := xml.Marshal(&tempXML)
-		if err != nil {
-			fmt.Println(err)
+		s, x_err := xml.Marshal(&tempXML)
+		if x_err != nil {
+			fmt.Println(x_err)
 			return
 		}
 		fmt.Println(string(s))

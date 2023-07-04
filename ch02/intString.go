@@ -23,7 +23,7 @@ func main() {
 	fmt.Printf("strconv.Itoa() %s of type %T\n", input, input)
 
 	// Using strconv.FormatInt
-	input = strconv.FormatInt(int64(n), 10)
+	input = strconv.FormatInt(int64(n), 16)
 	fmt.Printf("strconv.FormatInt() %s of type %T\n", input, input)
 
 	// Using string()

@@ -13,8 +13,10 @@ func generateBytes(n int64) ([]byte, error) {
 	b := make([]byte, n)
 	_, err := rand.Read(b)
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
+	fmt.Println(b)
 	return b, nil
 }
 

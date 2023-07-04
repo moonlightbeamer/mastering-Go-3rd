@@ -13,13 +13,14 @@ type Entry struct {
 
 var data = []Entry{}
 
-func search(key string) *Entry {
+func search(key string) *[]Entry {
+	var data_result = []Entry{}
 	for i, v := range data {
 		if v.Surname == key {
-			return &data[i]
+			data_result = append(data_result, data[i])
 		}
 	}
-	return nil
+	return &data_result
 }
 
 func list() {
@@ -38,6 +39,7 @@ func main() {
 
 	data = append(data, Entry{"Mihalis", "Tsoukalos", "2109416471"})
 	data = append(data, Entry{"Mary", "Doe", "2109416871"})
+	data = append(data, Entry{"Mike", "Doe", "2109416871"})
 	data = append(data, Entry{"John", "Black", "2109416123"})
 
 	// Differentiate between the commands
@@ -49,11 +51,13 @@ func main() {
 			return
 		}
 		result := search(arguments[2])
-		if result == nil {
+		if len(*result) == 0 {
 			fmt.Println("Entry not found:", arguments[2])
 			return
 		}
-		fmt.Println(*result)
+		for _, v := range *result {
+			fmt.Println(v)
+		}
 	// The list command
 	case "list":
 		list()

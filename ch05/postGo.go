@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
-
-	"github.com/mactsouk/post05"
+    "strings"
+	"github.com/moonlightbeamer/post05"
 )
 
 var MIN = 0
@@ -28,15 +28,15 @@ func getString(length int64) string {
 		}
 		i++
 	}
-	return temp
+	return strings.Title(strings.ToLower(temp))
 }
 
 func main() {
-	post05.Hostname = "localhost"
-	post05.Port = 5432
-	post05.Username = "mtsouk"
-	post05.Password = "pass"
-	post05.Database = "go"
+	//post05.Hostname = "localhost"
+	//post05.Port = 5432
+	//post05.Username = "mtsouk"
+	//post05.Password = "pass"
+	//post05.Database = "go"
 
 	data, err := post05.ListUsers()
 	if err != nil {
@@ -46,29 +46,34 @@ func main() {
 	for _, v := range data {
 		fmt.Println(v)
 	}
-
+    fmt.Println("LIST DONE")
 	SEED := time.Now().Unix()
 	rand.Seed(SEED)
-	random_username := getString(5)
+	random_username := getString(8)
 
 	t := post05.Userdata{
 		Username:    random_username,
-		Name:        "Mihalis",
-		Surname:     "Tsoukalos",
-		Description: "This is me!"}
+		Name:        getString(4),
+		Surname:     getString(5),
+		Description: "This is me!",
+	}
 
 	id := post05.AddUser(t)
 	if id == -1 {
 		fmt.Println("There was an error adding user", t.Username)
 	}
-
-	err = post05.DeleteUser(id)
+    username, err := post05.SearchUser(id)
+	if err != nil {
+		fmt.Println(err)
+	}
+	
+	err = post05.DeleteUser(username)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	// Trying to delete it again!
-	err = post05.DeleteUser(id)
+	err = post05.DeleteUser(username)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -80,12 +85,14 @@ func main() {
 
 	t = post05.Userdata{
 		Username:    random_username,
-		Name:        "Mihalis",
-		Surname:     "Tsoukalos",
+		Name:        getString(4),
+		Surname:     getString(5),
 		Description: "This might not be me!"}
 
 	err = post05.UpdateUser(t)
 	if err != nil {
 		fmt.Println(err)
 	}
+
+
 }

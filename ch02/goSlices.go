@@ -11,7 +11,7 @@ func main() {
 	// Add elements to a slice
 	aSlice = append(aSlice, 1234.56)
 	aSlice = append(aSlice, -34.0)
-	fmt.Println(aSlice, "with length", len(aSlice))
+	fmt.Println(aSlice, "with length", len(aSlice), "and capacity", cap(aSlice))
 
 	// A slice with length 4
 	t := make([]int, 4)
@@ -25,7 +25,7 @@ func main() {
 
 	// A 2D slice
 	// You can have as many dimensions as needed
-	twoD := [][]int{{1, 2, 3}, {4, 5, 6}}
+	twoD := [][]int{{1, 2, 3, 4}, {4, 5, 6}}
 
 	// Visiting all elements of a 2D slice
 	// with a double for loop

@@ -7,12 +7,17 @@ import (
 func main() {
 	c1 := 12 + 1i
 	c2 := complex(5, 7)
-	fmt.Printf("Type of c1: %T\n", c1)
+	fmt.Printf("Type of c1 (%f): %T\n", c1, c1)
 	fmt.Printf("Type of c2: %T\n", c2)
 
 	var c3 complex64 = complex64(c1 + c2)
 	fmt.Println("c3:", c3)
 	fmt.Printf("Type of c3: %T\n", c3)
+
+    z := 88.123 +9i
+	var c4 complex64 = complex64(z)
+	fmt.Println("c4:", c4)
+	fmt.Printf("Type of c4: %T\n", c4)
 
 	cZero := c3 - c3
 	fmt.Println("cZero:", cZero)
@@ -20,7 +25,7 @@ func main() {
 	x := 12
 	k := 5
 	fmt.Println(x)
-	fmt.Printf("Type of x: %T\n", x)
+	fmt.Printf("Type of x (%d): %T\n", x, x)
 
 	div := x / k
 	fmt.Println("div", div)

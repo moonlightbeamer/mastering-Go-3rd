@@ -5,7 +5,8 @@ import "fmt"
 func main() {
 	aString := "Hello World! €"
 	fmt.Println("First character", string(aString[0]))
-
+    fmt.Printf("%s", aString)
+	fmt.Println()
 	// Runes
 	// A rune
 	r := '€'
@@ -17,7 +18,7 @@ func main() {
 	for _, v := range aString {
 		fmt.Printf("%x ", v)
 	}
-	fmt.Println()
+	fmt.Print(aString)
 
 	// String to rune Array
 	// myRune := []rune(aString)

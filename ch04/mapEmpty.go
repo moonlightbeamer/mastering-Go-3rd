@@ -29,7 +29,7 @@ func typeSwitch(m map[string]interface{}) {
 			fmt.Println("Is a Boolean!", k, c)
 		case map[string]interface{}:
 			fmt.Println("Is a map!", k, c)
-			typeSwitch(v.(map[string]interface{}))
+			typeSwitch(c)
 		default:
 			fmt.Printf("...Is %v: %T!\n", k, c)
 		}
@@ -65,5 +65,6 @@ func main() {
 		return
 	}
 	exploreMap(JSONMap)
+	fmt.Println("=========================")
 	typeSwitch(JSONMap)
 }

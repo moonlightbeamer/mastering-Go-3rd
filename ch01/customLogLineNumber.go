@@ -25,4 +25,7 @@ func main() {
 
 	iLog.SetFlags(log.Lshortfile | log.LstdFlags)
 	iLog.Println("Another log entry!")
+
+	iLog.SetFlags(log.Llongfile | log.LstdFlags)
+	iLog.Println("Another log entry!")
 }

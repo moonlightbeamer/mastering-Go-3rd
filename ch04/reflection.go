@@ -20,22 +20,22 @@ func main() {
 	A := Record{"String value", -12.123, Secret{"Mihalis", "Tsoukalos"}}
 
 	r := reflect.ValueOf(A)
-	fmt.Println("String value:", r.String())
+	fmt.Println("String value:", r) // r.String())
 
 	iType := r.Type()
-	fmt.Printf("i Type: %s\n", iType)
+	fmt.Printf("i Type: %s of kind %s\n", iType, iType.Kind())
 	fmt.Printf("The %d fields of %s are\n", r.NumField(), iType)
 
 	for i := 0; i < r.NumField(); i++ {
 		fmt.Printf("\t%s ", iType.Field(i).Name)
 		fmt.Printf("\twith type: %s ", r.Field(i).Type())
-		fmt.Printf("\tand value _%v_\n", r.Field(i).Interface())
+		fmt.Printf("\tand value %v\n", r.Field(i)) // r.Field(i).Interface())
 
 		// Check whether there are other structures embedded in Record
-		k := reflect.TypeOf(r.Field(i).Interface()).Kind()
+		k := r.Field(i).Type().Kind()
 		// Need to convert it to string in order to compare it
 		if k.String() == "struct" {
-			fmt.Println(r.Field(i).Type())
+			fmt.Printf("type: %s\tkind: %s\n", r.Field(i).Type(), k)
 		}
 
 		// Same as before but using the internal value

@@ -10,7 +10,7 @@ import (
 func main() {
 	LOGFILE := path.Join(os.TempDir(), "mGo.log")
 	f, err := os.OpenFile(LOGFILE, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-
+    fmt.Println(LOGFILE)
 	if err != nil {
 		fmt.Println(err)
 		return

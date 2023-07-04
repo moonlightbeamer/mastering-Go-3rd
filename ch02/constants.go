@@ -33,17 +33,18 @@ func main() {
 	fmt.Println(Two)
 
 	const (
-		p2_0 Power2 = 1 << iota
+		zero int = 3 << iota
 		_
-		p2_2
+		two
+		three
+		four
 		_
-		p2_4
-		_
-		p2_6
+		six
 	)
 
-	fmt.Println("2^0:", p2_0)
-	fmt.Println("2^2:", p2_2)
-	fmt.Println("2^4:", p2_4)
-	fmt.Println("2^6:", p2_6)
+	fmt.Println("2^0:", zero)
+	fmt.Println("2^2:", two)
+	fmt.Println("2^2:", three)
+	fmt.Println("2^4:", four)
+	fmt.Println("2^6:", six)
 }

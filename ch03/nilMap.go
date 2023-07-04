@@ -6,6 +6,7 @@ import (
 
 func main() {
 	aMap := map[string]int{}
+	fmt.Println("aMap:", aMap)
 	aMap["test"] = 1
 	fmt.Println("aMap:", aMap)
 	aMap = nil
@@ -15,7 +16,7 @@ func main() {
 		aMap = map[string]int{}
 	}
 	aMap["test"] = 1
-
+    fmt.Println("aMap:", aMap)
 	// This will crash!
 	aMap = nil
 	aMap["test"] = 1

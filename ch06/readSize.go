@@ -14,12 +14,11 @@ func readSize(f *os.File, size int) []byte {
 	// io.EOF is a special case and is treated as such
 	if err == io.EOF {
 		return nil
-	}
-
-	if err != nil {
+	} else if err != nil {
 		fmt.Println(err)
 		return nil
 	}
+	fmt.Println("in func", string(buffer))
 	return buffer[0:n]
 }
 

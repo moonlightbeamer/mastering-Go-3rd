@@ -46,10 +46,10 @@ func saveCSVFile(filepath string) error {
 
 	csvwriter := csv.NewWriter(csvfile)
 	// Changing the default field delimiter to tab
-	csvwriter.Comma = '\t'
+	csvwriter.Comma = ','
 	for _, row := range myData {
 		temp := []string{row.Name, row.Surname, row.Number, row.LastAccess}
-		_ = csvwriter.Write(temp)
+		csvwriter.Write(temp)
 	}
 	csvwriter.Flush()
 	return nil
@@ -78,9 +78,10 @@ func main() {
 			LastAccess: line[3],
 		}
 		myData = append(myData, temp)
-		fmt.Println(temp)
+		fmt.Println("line:", line)
+		fmt.Println("struc:", temp)
 	}
-
+    myData = append(myData, Record{"Jane", "Dee", "1234567890", "1608559903"})
 	err = saveCSVFile(output)
 	if err != nil {
 		fmt.Println(err)

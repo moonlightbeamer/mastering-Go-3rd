@@ -15,15 +15,16 @@ func main() {
 		fmt.Print(i*i, " ")
 		i++
 	}
-	fmt.Println()
+	i = 100
+	fmt.Println(i)
 
-	i = 0
+	j := 0
 	for {
-		if i == 10 {
+		if j == 10 {
 			break
 		}
-		fmt.Print(i*i, " ")
-		i++
+		fmt.Print(j*j, " ")
+		j++
 	}
 	fmt.Println()
 
@@ -31,5 +32,20 @@ func main() {
 	aSlice := []int{-1, 2, 1, -1, 2, -2}
 	for i, v := range aSlice {
 		fmt.Println("index:", i, "value: ", v)
+	}
+
+	bSlice := []int{-1, 2, 1, -1, 2, -2}
+	for _, v := range bSlice {
+		fmt.Println("value: ", v)
+	}
+
+	cSlice := []int{-1, 2, 1, -1, 2, -2}
+	for i, _ := range cSlice {
+		fmt.Println("key: ", i)
+	}
+
+	dSlice := []int{-1, 2, 1, -1, 2, -2}
+	for i:= range dSlice {
+		fmt.Println("key: ", i)
 	}
 }

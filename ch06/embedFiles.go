@@ -38,7 +38,7 @@ func main() {
 
 	switch arguments[1] {
 	case "1":
-		filename := "/tmp/temporary.png"
+		filename := "./temporary.png"
 		err := writeToFile(f1, filename)
 		if err != nil {
 			fmt.Println(err)

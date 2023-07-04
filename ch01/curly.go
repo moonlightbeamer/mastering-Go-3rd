@@ -4,8 +4,9 @@ import (
 	"fmt"
 )
 
-func main()
-{
-	fmt.Println("Go has strict rules for curly braces!")
+func main(){
+	value, err := fmt.Printf("Go has strict rules for curly braces!")
+	fmt.Println()
+	fmt.Println("value is: ", value, "error is:", err)
 }
 

@@ -68,10 +68,26 @@ func main() {
 		}
 		DataRecords = append(DataRecords, t)
 	}
-
+  /*
 	fmt.Println("Last record:", t)
+	json, err := json.MarshalIndent(t, "", "\t")
+	if err == nil {
+		fmt.Println(string(json))
+	} else {
+    return
+  }
+  */
 	_ = PrettyPrint(t)
 
+  buf := new(bytes.Buffer)
+	encoder := json.NewEncoder(buf)  // one func can't have json.MarshalIndent and json.NewEncoder at same time.
+	encoder.SetIndent("", "\t")
+
+	enc_err := encoder.Encode(DataRecords)
+	if enc_err == nil {
+		fmt.Print(buf)
+	}
+	
 	val, _ := JSONstream(DataRecords)
 	fmt.Println(val)
 }

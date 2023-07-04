@@ -43,7 +43,7 @@ func (c Cuboid) Vol() float64 {
 }
 
 func (c Sphere) Vol() float64 {
-	return 4 / 3 * math.Pi * c.r * c.r * c.r
+	return float64(4) / float64(3) * math.Pi * c.r * c.r * c.r
 }
 
 // Slice of Shape3D
@@ -65,13 +65,13 @@ func (a shapes) Swap(i, j int) {
 func PrintShapes(a shapes) {
 	for _, v := range a {
 		// fmt.Printf("%.2f ", v)
-		switch v.(type) {
+		switch t := v.(type) {
 		case Cube:
-			fmt.Printf("Cube: volume %.2f\n", v.Vol())
+			fmt.Printf("Cube: volume %.2f\n", t.Vol())
 		case Cuboid:
-			fmt.Printf("Cuboid: volume %.2f\n", v.Vol())
+			fmt.Printf("Cuboid: volume %.2f\n", t.Vol())
 		case Sphere:
-			fmt.Printf("Sphere: volume %.2f\n", v.Vol())
+			fmt.Printf("Sphere: volume %.2f\n", t.Vol())
 		default:
 			fmt.Println("Unknown data type!")
 		}
@@ -80,10 +80,11 @@ func PrintShapes(a shapes) {
 }
 
 func main() {
-	data := shapes{}
+	//data := shapes{Cube{1}, Cube{2}, Cuboid{1,2,3}, Sphere{4}}
+	var data shapes =  shapes{Cube{1}, Cube{2}, Cuboid{1,2,3}, Sphere{4}}
 	rand.Seed(time.Now().Unix())
 
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 1; i++ {
 		cube := Cube{rF64(min, max)}
 		cuboid := Cuboid{rF64(min, max), rF64(min, max), rF64(min, max)}
 		sphere := Sphere{rF64(min, max)}
@@ -95,10 +96,10 @@ func main() {
 	PrintShapes(data)
 
 	// Sorting
-	sort.Sort(shapes(data))
+	sort.Sort(data)
 	PrintShapes(data)
-
+	
 	// Reverse sorting
-	sort.Sort(sort.Reverse(shapes(data)))
+	sort.Sort(sort.Reverse(data))
 	PrintShapes(data)
 }

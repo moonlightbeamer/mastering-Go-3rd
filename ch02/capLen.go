@@ -5,10 +5,10 @@ import "fmt"
 func main() {
 	// Only length is defined. Capacity = length
 	a := make([]int, 4)
-	fmt.Println("L:", len(a), "C:", cap(a))
+	fmt.Println(a, "L:", len(a), "C:", cap(a))
 	// Initialize slice. Capacity = length
 	b := []int{0, 1, 2, 3, 4}
-	fmt.Println("L:", len(b), "C:", cap(b))
+	fmt.Println(b, "L:", len(b), "C:", cap(b))
 	// Same length and capacity
 	aSlice := make([]int, 4, 4)
 	fmt.Println(aSlice)

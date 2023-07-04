@@ -12,6 +12,8 @@ type S2 struct {
 	F2 S1
 }
 
+// Print use interface{} as parameter, 
+// so it can take any data type including custom types
 func Print(s interface{}) {
 	fmt.Println(s)
 }

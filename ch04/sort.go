@@ -36,16 +36,18 @@ func (a S2slice) Swap(i, j int) {
 }
 
 func main() {
-	data := []S2{
+	data := S2slice{
 		S2{1, "One", S1{1, "S1_1", 10}},
 		S2{2, "Two", S1{2, "S1_1", 20}},
 		S2{-1, "Two", S1{-1, "S1_1", -20}},
 	}
-	fmt.Println("Before:", data)
-	sort.Sort(S2slice(data))
-	fmt.Println("After:", data)
+	fmt.Println("Original:", data)
+	// sort.Sort needs Interface type input, and S2slice type satisfied Interface, 
+	// so a S2slice type var can be used directly as an Interface var
+	sort.Sort(data)  
+	fmt.Println("Sorted:  ", data)
 
 	// Reverse sorting works automatically
-	sort.Sort(sort.Reverse(S2slice(data)))
-	fmt.Println("Reverse:", data)
+	sort.Sort(sort.Reverse(data))
+	fmt.Println("Reversed:", data)
 }

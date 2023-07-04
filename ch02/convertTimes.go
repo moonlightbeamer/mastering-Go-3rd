@@ -35,4 +35,8 @@ func main() {
 	// Tokyo
 	loc, _ = time.LoadLocation("Asia/Tokyo")
 	fmt.Printf("Tokyo Time: %s\n", now.In(loc))
+
+	// China
+	loc, _ = time.LoadLocation("Asia/Chongqing")
+	fmt.Printf("Beijing Time: %s\n", now.In(loc))
 }

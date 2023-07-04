@@ -1,0 +1,26 @@
+logDefer 2023/06/13 23:15:16 Hello there!
+logDefer 2023/06/13 23:15:16 Another log entry!
+logDefer 2023/06/13 23:15:16 -- FUNCTION one ------
+logDefer 2023/06/13 23:15:16 0
+logDefer 2023/06/13 23:15:16 1
+logDefer 2023/06/13 23:15:16 2
+logDefer 2023/06/13 23:15:16 3
+logDefer 2023/06/13 23:15:16 4
+logDefer 2023/06/13 23:15:16 5
+logDefer 2023/06/13 23:15:16 6
+logDefer 2023/06/13 23:15:16 7
+logDefer 2023/06/13 23:15:16 8
+logDefer 2023/06/13 23:15:16 9
+logDefer 2023/06/13 23:15:16 -- FUNCTION one ------
+logDefer 2023/06/13 23:15:16 ---- FUNCTION two
+logDefer 2023/06/13 23:15:16 10
+logDefer 2023/06/13 23:15:16 9
+logDefer 2023/06/13 23:15:16 8
+logDefer 2023/06/13 23:15:16 7
+logDefer 2023/06/13 23:15:16 6
+logDefer 2023/06/13 23:15:16 5
+logDefer 2023/06/13 23:15:16 4
+logDefer 2023/06/13 23:15:16 3
+logDefer 2023/06/13 23:15:16 2
+logDefer 2023/06/13 23:15:16 1
+logDefer 2023/06/13 23:15:16 FUNCTION two ------

@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-var VERSION string
+var VERSION string = "1"
 
 func main() {
 	if len(os.Args) == 2 {

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v2"
 )
 
 var yamlfile = `
@@ -31,12 +31,12 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("After Unmarshal (Structure):\n%v\n\n", data)
+	fmt.Printf("After Unmarshal to Structure:\n%v\n\n", data)
 
 	d, err := yaml.Marshal(&data)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("After Marshal (YAML code):\n%s\n", string(d))
+	fmt.Printf("After Marshal to YAML code:\n%s\n", d)
 }

@@ -12,33 +12,40 @@ func main() {
 		fmt.Println("Need one or more arguments!")
 		return
 	}
-
 	var min, max float64
+  var first int
 	for i := 1; i < len(arguments); i++ {
 		n, err := strconv.ParseFloat(arguments[i], 64)
 		if err != nil {
-			continue
-		}
-
-		// As pointed out by a reader of the book:
-		//
-		// When the first argument is non-parseable, the `min/max` variables are not initialized
-		// to the first parseable argument (but to `0` by default).
-		// This would lead to bug when all the parseable arguments share the same sign.
-		if i == 1 {
-			min = n
+      first = i
+		  //continue
+		} else {
+      min = n
 			max = n
-			continue
-		}
-
-		if n < min {
-			min = n
-		}
-		if n > max {
-			max = n
+      first = i
+			break
 		}
 	}
-
-	fmt.Println("Min:", min)
-	fmt.Println("Max:", max)
+  if first == len(arguments)-1 {
+    fmt.Println("no valid argument found.")
+    return
+  } else {
+    fmt.Println("First numerical argument:", first)
+    for i := first + 1; i < len(arguments); i++ {
+      n, err := strconv.ParseFloat(arguments[i], 64)
+      if err != nil {
+        continue
+      } else if n < min {
+          min = n
+          continue
+      } else if n > max {
+          max = n
+          continue
+      }
+      fmt.Printf("Min: %.0f, Max: %.0f", min, max)
+      fmt.Println()
+    }
+    fmt.Println("Min:", min)
+    fmt.Println("Max:", max)
+  }
 }
